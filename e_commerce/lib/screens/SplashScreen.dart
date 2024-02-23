@@ -26,6 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
         backgroundColor: const Color(0xFF40BFFF),
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: Color(0xFF40BFFF),
+          statusBarColor: Color(0xFF40BFFF)
         ),
       ),
       backgroundColor: const Color(0xFF40BFFF),
