@@ -1,3 +1,4 @@
+import 'package:e_commerce/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,11 +12,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('home'),
-    Text('home'),
-    Text('home'),
-    Text('home'),
-    Text('home'),
+    HomeScreen(),
+    Text('Explore'),
+    Text('Cart'),
+    Text('Offer'),
+    Text('Account'),
   ];
 
   @override
@@ -23,9 +24,11 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        toolbarHeight: 0,
         bottomOpacity: 0,
         backgroundColor: Colors.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.dark,
             systemNavigationBarColor: Colors.white,
             statusBarColor: Colors.white,
         ),

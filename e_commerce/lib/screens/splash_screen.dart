@@ -1,4 +1,5 @@
-import 'package:e_commerce/screens/MainScreen.dart';
+import 'package:e_commerce/const_variable/colors.dart';
+import 'package:e_commerce/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,15 +24,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF40BFFF),
+        backgroundColor: myBlue,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.light,
           statusBarBrightness: Brightness.light,
-          systemNavigationBarColor: Color(0xFF40BFFF),
-          statusBarColor: Color(0xFF40BFFF)
+          systemNavigationBarColor: myBlue,
+          statusBarColor: myBlue,
         ),
       ),
-      backgroundColor: const Color(0xFF40BFFF),
+      backgroundColor: myBlue,
       body: Center(
         child: Image.asset('assets/images/white_logo.png'),
       ),
