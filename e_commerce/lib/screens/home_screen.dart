@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
+    final searchControler = TextEditingController();
 
     bool isDeviceRounded(){
       return deviceWidth > 400
@@ -46,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: deviceWidth * 0.7,
                   child: TextFormField(
+                    controller: searchControler,
                     cursorColor: myBlue,
                     maxLines: 1,
                     decoration: const InputDecoration(
@@ -253,15 +255,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: 10,
                       itemBuilder: (context, index) {
-                        return const Row(
+                        return  Row(
                           children: [
-                            MyItemCard(
-                              image: "",
-                              name: "Test Test Test Test Test Test",
-                              discount: 10,
-                              price: 20050,
+                            GestureDetector(
+                              onTap:(){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const ProductScreen(
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: const MyItemCard(
+                                image: "https://www.shutterstock.com/image-illustration/mens-fashion-shoes-black-classic-260nw-1080406805.jpg",
+                                name: "Test Test Test Test Test Test",
+                                discount: 10,
+                                price: 20050,
+                              ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 16,
                             )
                           ],
@@ -274,38 +289,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   // Image Recommended Product //
-                  Stack(children: [
-                    Image.asset(
-                      'assets/images/Recommended_Product.png',
-                      height: 206,
-                      width: isDeviceRounded() ? deviceWidth*0.70 : deviceWidth,
-                      fit: BoxFit.fill,
-                    ),
-                     Positioned(
-                      top: 48,
-                      left: deviceWidth > 400?55:24,
-                      child: Text(
-                        deviceWidth > 400?'Recommended Product':'Recommended\nProduct',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: isDeviceRounded() ? 50 : 34,
-                          fontWeight: FontWeight.w700,
+                  GestureDetector(
+                    onTap: (){},
+                    child: Stack(children: [
+                      Image.asset(
+                        'assets/images/Recommended_Product.png',
+                        height: 206,
+                        width: deviceWidth,
+                        fit: BoxFit.fill,
+                      ),
+                       Positioned(
+                        top: 48,
+                        left: deviceWidth > 400?55:24,
+                        child: Text(
+                          deviceWidth > 400?'Recommended Product':'Recommended\nProduct',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: isDeviceRounded() ? 50 : 34,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                    ),
-                     Positioned(
-                      top: 136,
-                      left: isDeviceRounded() ? 55 : 24,
-                      child: Text(
-                        'We recommend the best for you',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: isDeviceRounded() ? 25 : 18,
-                          fontWeight: FontWeight.w400,
+                       Positioned(
+                        top: 136,
+                        left: isDeviceRounded() ? 55 : 24,
+                        child: Text(
+                          'We recommend the best for you',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: isDeviceRounded() ? 25 : 18,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
-                    ),
-                  ]),
+                    ]),
+                  ),
                   const SizedBox(
                     height: 16,
                   ),
@@ -315,8 +333,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: isDeviceRounded()?4:2,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                       childAspectRatio: 2/3,
@@ -336,7 +354,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: const MyItemCard(
-                          image: "",
+                          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Ib4SxJUZVvD7Wq5ISO6q5UOWiG_DGULl-Q&usqp=CAU",
                           name: "Test Test Test Test Test Test",
                           discount: 10,
                           price: 20050,

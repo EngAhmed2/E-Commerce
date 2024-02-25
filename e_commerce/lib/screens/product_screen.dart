@@ -5,6 +5,6 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Text("Product Screen",style: TextStyle(fontSize: 55),);
   }
 }

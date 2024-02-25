@@ -89,6 +89,8 @@ class MyItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         textDirection: arabic,
         children: [
+
+          ClipOval(clipBehavior: Clip.antiAlias),
           Image.network(
             image,
             height: 109,
@@ -172,4 +174,6 @@ class MyItemCard extends StatelessWidget {
     );
   }
 }
+
+
 

@@ -1,3 +1,5 @@
+import 'package:e_commerce/const_variable/colors.dart';
+import 'package:e_commerce/screens/explore_screen.dart';
 import 'package:e_commerce/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +15,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    Text('Explore'),
+    ExploreScreen(),
     Text('Cart'),
     Text('Offer'),
     Text('Account'),
@@ -45,6 +47,8 @@ class _MainScreenState extends State<MainScreen> {
         ),
         child: BottomNavigationBar(
           iconSize: 24,
+          backgroundColor: myBackground,
+
           currentIndex: _selectedIndex,
           selectedItemColor: const Color(0xFF40BFFF),
           unselectedItemColor: const Color(0xFF9098B1),
