@@ -19,7 +19,7 @@ class ProductCubit extends Cubit<ProductState> {
 
     try {
       emit(ProductLoading());
-      productData = await Product_Repo().getProductsData();
+      productData = await ProductRepo().getProductsData();
       emit(ProductSuccess(productData.data));
 
     } on Exception catch (e) {

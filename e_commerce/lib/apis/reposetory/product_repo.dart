@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce/apis/models/home_model.dart';
 
-class Product_Repo{
+class ProductRepo{
 
   final _dio = Dio();
   static const String productPath = "https://student.valuxapps.com/api/";

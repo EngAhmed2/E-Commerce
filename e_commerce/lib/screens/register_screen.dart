@@ -45,7 +45,7 @@ class RegisterScreen extends StatelessWidget {
                   const Text(
                     'Create an new account',
                     style: TextStyle(
-                      color: Color(0xFF9098B1),
+                      color: myNeutralGray,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5,
