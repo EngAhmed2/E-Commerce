@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "540603929025",
+    "project_id": "e-commerce-ahmed",
+    "storage_bucket": "e-commerce-ahmed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540603929025:android:bedf56fe440b42a277df40",
+        "android_client_info": {
+          "package_name": "com.example.e_commerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmekaisiQ4R7ldcjZhqxK62NamVDpYGX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

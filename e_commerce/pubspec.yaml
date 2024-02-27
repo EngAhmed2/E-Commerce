@@ -41,6 +41,9 @@ dependencies:
   shimmer: ^3.0.0
   dots_indicator: ^3.0.0
   firebase_core: ^2.25.4
+  dio: ^5.4.1
+  flutter_bloc: ^8.1.4
+  connectivity_plus: ^5.0.2
 
 dev_dependencies:
   flutter_test:

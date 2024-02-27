@@ -29,12 +29,16 @@ class _SplashScreenState extends State<SplashScreen> {
           statusBarIconBrightness: Brightness.light,
           statusBarBrightness: Brightness.light,
           systemNavigationBarColor: myBlue,
+          systemNavigationBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: myBlue,
           statusBarColor: myBlue,
         ),
       ),
       backgroundColor: myBlue,
       body: Center(
-        child: Image.asset('assets/images/white_logo.png'),
+        child: Image.asset('assets/images/white_logo.png',errorBuilder: (context, error, stackTrace) {
+          return Container();
+        },),
       ),
     );
   }

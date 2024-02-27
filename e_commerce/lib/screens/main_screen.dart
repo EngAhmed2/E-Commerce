@@ -1,8 +1,10 @@
 import 'package:e_commerce/const_variable/colors.dart';
+import 'package:e_commerce/cubits/categories/category_cubit.dart';
 import 'package:e_commerce/screens/explore_screen.dart';
 import 'package:e_commerce/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,12 +15,15 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    ExploreScreen(),
-    Text('Cart'),
-    Text('Offer'),
-    Text('Account'),
+  static final List<Widget> _widgetOptions = <Widget>[
+    BlocProvider(
+      create: (context) => CategoryCubit(),
+      child: const HomeScreen(),
+    ),
+    const ExploreScreen(),
+    const Text('Cart'),
+    const Text('Offer'),
+    const Text('Account'),
   ];
 
   @override
@@ -31,8 +36,9 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
-            systemNavigationBarColor: Colors.white,
-            statusBarColor: Colors.white,
+          systemNavigationBarDividerColor: myBackground,
+          systemNavigationBarColor: Colors.white,
+          statusBarColor: Colors.white,
         ),
       ),
       bottomNavigationBar: Container(
@@ -48,30 +54,32 @@ class _MainScreenState extends State<MainScreen> {
         child: BottomNavigationBar(
           iconSize: 24,
           backgroundColor: myBackground,
-
           currentIndex: _selectedIndex,
           selectedItemColor: const Color(0xFF40BFFF),
           unselectedItemColor: const Color(0xFF9098B1),
           showSelectedLabels: true,
           enableFeedback: true,
-          onTap: (index)=>setState(() {
+          onTap: (index) => setState(() {
             _selectedIndex = index;
           }),
-          items:  const [
+          items: const [
             // Home button //
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               label: "Home",
             ),
             // Search button //
-            BottomNavigationBarItem(icon: Icon(Icons.search_rounded),label: "Explore"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.search_rounded), label: "Explore"),
             // Cart button //
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined),label: "Cart"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart_outlined), label: "Cart"),
             // Offer button //
-            BottomNavigationBarItem(icon: Icon(Icons.local_offer_outlined),label: "Offer"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.local_offer_outlined), label: "Offer"),
             // Account button //
-            BottomNavigationBarItem(icon: Icon(Icons.person_outline_sharp),label: "Account"),
-
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline_sharp), label: "Account"),
           ],
         ),
       ),

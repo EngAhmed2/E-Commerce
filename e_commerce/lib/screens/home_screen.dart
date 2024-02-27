@@ -2,9 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:e_commerce/const_variable/colors.dart';
 import 'package:e_commerce/const_variable/widget.dart';
+import 'package:e_commerce/cubits/categories/category_cubit.dart';
 import 'package:e_commerce/screens/category_screen.dart';
+import 'package:e_commerce/screens/more_categories_screen.dart';
 import 'package:e_commerce/screens/product_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,19 +22,23 @@ class _HomeScreenState extends State<HomeScreen> {
   final carouselController = CarouselController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<CategoryCubit>().getCategories();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
-    final searchControler = TextEditingController();
+    final searchController = TextEditingController();
 
-    bool isDeviceRounded(){
-      return deviceWidth > 400
-          ?true
-          :false;
+    bool isDeviceRounded() {
+      return deviceWidth > 400 ? true : false;
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: myBackground,
       body: Container(
         height: deviceHeight,
         width: deviceWidth,
@@ -47,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: deviceWidth * 0.7,
                   child: TextFormField(
-                    controller: searchControler,
+                    controller: searchController,
                     cursorColor: myBlue,
                     maxLines: 1,
                     decoration: const InputDecoration(
@@ -117,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Container(
                         margin: const EdgeInsets.all(10),
                         height: 200,
-                        width: MediaQuery.of(context).size.width,
+                        width: deviceWidth,
                         child: Image.network(
                           "",
                           fit: BoxFit.fill,
@@ -168,7 +175,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (context) => CategoryCubit(),
+                                  child: const MoreCategoryScreen(),
+                                ),
+                              ));
+                        },
                         child: const Text(
                           'More Category',
                           style: TextStyle(
@@ -188,30 +204,57 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     height: 107,
                     margin: const EdgeInsets.only(left: 16, right: 16),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return const CategoryScreen();
-                                  },
-                                ));
-                              },
-                              child: const MyCircularAvatar(
-                                image: "",
-                                name: "Test Test Test Test",
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                          ],
-                        );
+                    child: BlocBuilder<CategoryCubit, CategoryState>(
+                      builder: (context, state) {
+                        if (state is CategoryLoading) {
+                          return const CircularProgressIndicator();
+                        }
+                        if (state is CategorySuccess) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.categoriesData.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return  CategoryScreen(index);
+                                        },
+                                      ));
+                                    },
+                                    child: MyCircularAvatar(
+                                      image: state.categoriesData[index].image,
+                                      name: state.categoriesData[index].name,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                        if (state is CategoryNetworkFailed) {
+                          return Shimmer.fromColors(
+                              baseColor: myNeutralGray,
+                              highlightColor: myNeutralLight,
+                              child: Container(
+                                height: 68,
+                                width: 68,
+                                //color: myNeutralGray,
+                                decoration: BoxDecoration(
+                                    color: myNeutralGray,
+                                    borderRadius: BorderRadius.circular(40)),
+                              )
+                          );
+                        }
+                        if (state is CategoryFailed) {
+                          return const Text("Category Failed Error");
+                        }
+                        return const Text("unExpected error");
                       },
                     ),
                   ),
@@ -255,22 +298,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: 10,
                       itemBuilder: (context, index) {
-                        return  Row(
+                        return Row(
                           children: [
                             GestureDetector(
-                              onTap:(){
+                              onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return const ProductScreen(
-                                      );
+                                      return const ProductScreen();
                                     },
                                   ),
                                 );
                               },
                               child: const MyItemCard(
-                                image: "https://www.shutterstock.com/image-illustration/mens-fashion-shoes-black-classic-260nw-1080406805.jpg",
+                                image:
+                                    "https://www.shutterstock.com/image-illustration/mens-fashion-shoes-black-classic-260nw-1080406805.jpg",
                                 name: "Test Test Test Test Test Test",
                                 discount: 10,
                                 price: 20050,
@@ -290,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // Image Recommended Product //
                   GestureDetector(
-                    onTap: (){},
+                    onTap: () {},
                     child: Stack(children: [
                       Image.asset(
                         'assets/images/Recommended_Product.png',
@@ -298,11 +341,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: deviceWidth,
                         fit: BoxFit.fill,
                       ),
-                       Positioned(
+                      Positioned(
                         top: 48,
-                        left: deviceWidth > 400?55:24,
+                        left: deviceWidth > 400 ? 55 : 24,
                         child: Text(
-                          deviceWidth > 400?'Recommended Product':'Recommended\nProduct',
+                          deviceWidth > 400
+                              ? 'Recommended Product'
+                              : 'Recommended\nProduct',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: isDeviceRounded() ? 50 : 34,
@@ -310,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                       Positioned(
+                      Positioned(
                         top: 136,
                         left: isDeviceRounded() ? 55 : 24,
                         child: Text(
@@ -332,12 +377,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate:
-                      SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: isDeviceRounded()?4:2,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: isDeviceRounded() ? 4 : 2,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
-                      childAspectRatio: 2/3,
+                      childAspectRatio: 2 / 3,
                     ),
                     itemCount: 20,
                     itemBuilder: (BuildContext context, int index) {
@@ -347,14 +391,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const ProductScreen(
-                                );
+                                return const ProductScreen();
                               },
                             ),
                           );
                         },
                         child: const MyItemCard(
-                          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Ib4SxJUZVvD7Wq5ISO6q5UOWiG_DGULl-Q&usqp=CAU",
+                          image:
+                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Ib4SxJUZVvD7Wq5ISO6q5UOWiG_DGULl-Q&usqp=CAU",
                           name: "Test Test Test Test Test Test",
                           discount: 10,
                           price: 20050,
@@ -369,7 +413,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-
   }
-
 }

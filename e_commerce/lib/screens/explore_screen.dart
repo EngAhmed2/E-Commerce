@@ -6,6 +6,7 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
+    final searchController = TextEditingController();
     return Scaffold(
       backgroundColor: myBackground,
       body: Column(
@@ -18,6 +19,7 @@ class ExploreScreen extends StatelessWidget {
               SizedBox(
                 width: deviceWidth * 0.7,
                 child: TextFormField(
+                  controller: searchController,
                   cursorColor: myBlue,
                   maxLines: 1,
                   decoration: const InputDecoration(
@@ -47,6 +49,20 @@ class ExploreScreen extends StatelessWidget {
               ),
             ],
           ),
+
+          const SizedBox(
+            height: 16,
+          ),
+
+          const Divider(
+            height: 1,
+            color: myNeutralGray,
+          ),
+
+          const SizedBox(
+            height: 16,
+          ),
+
           Expanded(
 
             child: ListView(

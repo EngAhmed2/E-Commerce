@@ -12,6 +12,7 @@ class MyCircularAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CircleAvatar(
           radius: 35,
@@ -48,6 +49,7 @@ class MyCircularAvatar extends StatelessWidget {
           child: Text(
             name,
             maxLines: 2,
+            textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: myNeutralGray,
@@ -89,8 +91,6 @@ class MyItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         textDirection: arabic,
         children: [
-
-          ClipOval(clipBehavior: Clip.antiAlias),
           Image.network(
             image,
             height: 109,
